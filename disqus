@@ -1,0 +1,57 @@
+#!/bin/sh
+# by TUVIMEN <suchora.dominik7@gmail.com>
+# License: GNU GPLv3
+
+[ $# -lt 2 ] && printf '%s <outdir> <owner> <thread>\n' $(basename $0) && exit 1
+
+user_agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.2 Chrome/87.0.4280.144 Safari/537.36"
+api_key="E8Uh5l5fHZ6gD8U3KycjAIAk46f68Zw7C6eW8WSjZvCLXebZ7p0r1yrYDrLilk2F"
+
+alias ucurl="curl -L -g -s --user-agent \"$user_agent\" -H 'Accept-Encoding: gzip, deflate, br' --compressed"
+
+DOMAIN="https://disqus.com/api/3.0"
+limit=100
+next=""
+g=1
+
+page_get() {
+    n=""
+    l=1;
+    while :
+    do
+        ucurl "$DOMAIN/threads/listPostsThreaded?limit=$limit&thread=$1&forum=$2&order=popular&cursor=$n&api_key=$api_key" > "$3/$l.json"
+        echo "$3/$l.json"
+        n="$(jq -r '.cursor.id' "$3/$l.json")"
+        [ "$(jq '.cursor.hasNext' "$3/$l.json")" = "false" ] && break
+        l="$(expr "$l" + 1)"
+    done
+}
+
+owner="$2"
+
+if [ $# -lt 3 ]
+then
+    ucurl "$DOMAIN/forums/details?forum=$owner&attach=forumFeatures&api_key=$api_key" > "$1/0.json"
+    while :
+    do
+        ucurl "$DOMAIN/timelines/activities?type=profile&target=forum%3A$owner&cursor=$next&limit=$limit&api_key=$api_key" > "$1/$g.json"
+        echo "$1/$g.json"
+        for i in $(jq -r '.response.objects | to_entries | .[].value.slug | select( . != null )' "$1/$g.json")
+        do
+            mkdir "$1/$i" || continue
+            n=0
+            nn=""
+            ucurl "$DOMAIN/threads/details?thread=slug%3A$i&forum=$owner&attach=topics&related=forum&api_key=$api_key" > "$1/$i/0.json"
+            thread_id="$(jq -r '.response.id' "$1/$i/0.json")"
+            page_get "$thread_id" "$owner" "$1/$i"
+        done
+        next="$(jq -r '.cursor.id' "$1/$g.json")"
+        [ "$(jq '.cursor.hasNext' "$1/$g.json")" = "false" ] && break
+        g="$(expr "$g" + 1)"
+    done
+else
+    thread="$3"
+    ucurl "$DOMAIN/threads/details?thread=slug%3A$thread&forum=$owner&attach=topics&related=forum&api_key=$api_key" > "$1/0.json"
+    thread_id="$(jq -r '.response.id' "$1/0.json")"
+    page_get "$thread_id" "$owner" "$1"
+fi
