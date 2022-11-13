@@ -1,4 +1,5 @@
-# libgen
+# disqus
+
 A bash script for downloading comments from disqus.
 
 ## Requirements
