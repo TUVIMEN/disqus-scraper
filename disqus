@@ -87,18 +87,18 @@ do
     case "$1" in
         +([[:alnum:]_-])?([/]))
             owner_get "${1%/}";;
-        http[s]://disqus.com/home/forum/+([[:alnum:]_-])[/])
+        http?(s)://disqus.com/home/forum/+([[:alnum:]_-])[/])
             t1="${1#http*://disqus.com/home/forum/}"
             owner_get "${t1%/}";;
         +([[:alnum:]_-])/+([[:alnum:]_-]))
             discussion_get "${1%/*}" "${1#*/}";;
-        http[s]://disqus.com/home/discussion/+([[:alnum:]_-])/+([[:alnum:]_-])[/])
+        http?(s)://disqus.com/home/discussion/+([[:alnum:]_-])/+([[:alnum:]_-])[/])
             t1="${1#http*://disqus.com/home/discussion/}"
             t2=${t1%/}
             discussion_get "${t2%/*}" "${t2#*/}";;
         @+([[:alnum:]_-]))
             user_get "${1#@}";;
-        http[s]://disqus.com/by/+([[:alnum:]_-])[/])
+        http?(s)://disqus.com/by/+([[:alnum:]_-])[/])
             t1="${1#http*://disqus.com/by/}"
             user_get "${t1%/}";;
         #http[s]://+(+([[:alnum:]]).)+([[:alpha:]])/*)
