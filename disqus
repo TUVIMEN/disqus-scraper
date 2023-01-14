@@ -23,7 +23,7 @@ discussion_get() {
         ucurl "$DOMAIN/threads/listPostsThreaded?limit=$limit&thread=$thread_id&forum=$1&order=popular&cursor=$next&api_key=$api_key" > "$i.json"
         echo "$i.json"
         next="$(jq -r '.cursor.id' "$i.json")"
-        [ "$(jq '.cursor.hasNext' "$i.json")" = "false" ] && break
+        [ "$(jq '.cursor.hasNext' "$i.json")" != "true" ] && break
         ((i++))
     done
 }
@@ -45,7 +45,7 @@ user_get() {
             ucurl "$DOMAIN/${j#*;}$1&cursor=$next&limit=$limit&api_key=$api_key" > "$name"
             echo "$name"
             next="$(jq -r '.cursor.id' "$name")"
-            [ "$(jq '.cursor.hasNext' "$name")" = "false" ] && break
+            [ "$(jq '.cursor.hasNext' "$name")" != "true" ] && break
             ((i++))
         done
         next=''
@@ -69,7 +69,7 @@ owner_get() {
             cd '..'
         done
         next="$(jq -r '.cursor.id' "$g.json")"
-        [ "$(jq '.cursor.hasNext' "$g.json")" = "false" ] && break
+        [ "$(jq '.cursor.hasNext' "$g.json")" != "true" ] && break
         ((g++))
     done
 }
