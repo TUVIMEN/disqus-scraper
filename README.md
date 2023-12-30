@@ -5,7 +5,6 @@ A bash script for downloading comments from disqus.
 ## Requirements
 
  - [jq](https://github.com/stedolan/jq)
- - [hgrep](https://github.com/TUVIMEN/hgrep)
 
 ## Installation
     install -m 755 disqus /usr/bin
