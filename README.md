@@ -1,6 +1,6 @@
 # disqus-scraper
 
-A bash script for scraping comments from disqus-scraper.
+A bash script for scraping comments from disqus.
 
 ## Requirements
 
@@ -50,14 +50,14 @@ The script writes json files downloaded from disqus-scraper.
 Get everything from user profile to directory x
 
     disqus-scraper x @user
-    disqus-scraper x https://disqus-scraper.com/by/user/
+    disqus-scraper x https://disqus.com/by/user/
 
 Get everything from discussion to directory x
 
     disqus-scraper x owner/thread
-    disqus-scraper x https://disqus-scraper.com/home/discussion/owner/thread/
+    disqus-scraper x https://disqus.com/home/discussion/owner/thread/
 
 Get everyting from forum to directory x
 
     disqus-scraper x owner
-    disqus-scraper x https://disqus-scraper.com/home/forum/owner/
+    disqus-scraper x https://disqus.com/home/forum/owner/
