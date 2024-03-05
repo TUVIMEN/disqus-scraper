@@ -1,20 +1,20 @@
-# disqus
+# disqus-scraper
 
-A bash script for downloading comments from disqus.
+A bash script for scraping comments from disqus-scraper.
 
 ## Requirements
 
  - [jq](https://github.com/stedolan/jq)
 
 ## Installation
-    install -m 755 disqus /usr/bin
+    install -m 755 disqus-scraper /usr/bin
 
 ## Supported links formats
 
     owner
     owner/thread
     @user
-    https://disqus.com/home/forum/{owner}/
+    http[s]://disqus.com/home/forum/{owner}/
     http[s]://disqus.com/home/discussion/{owner}/{thread}/
     http[s]://disqus.com/by/{user}/
 
@@ -43,21 +43,21 @@ A bash script for downloading comments from disqus.
 
 ## Usage
 
-    disqus directory [URL]...
+    disqus-scraper directory [URL]...
 
-The script writes json files downloaded from disqus.
+The script writes json files downloaded from disqus-scraper.
 
 Get everything from user profile to directory x
 
-    disqus x @user
-    disqus x https://disqus.com/by/user/
+    disqus-scraper x @user
+    disqus-scraper x https://disqus-scraper.com/by/user/
 
 Get everything from discussion to directory x
 
-    disqus x owner/thread
-    disqus x https://disqus.com/home/discussion/owner/thread/
+    disqus-scraper x owner/thread
+    disqus-scraper x https://disqus-scraper.com/home/discussion/owner/thread/
 
 Get everyting from forum to directory x
 
-    disqus x owner
-    disqus x https://disqus.com/home/forum/owner/
+    disqus-scraper x owner
+    disqus-scraper x https://disqus-scraper.com/home/forum/owner/
