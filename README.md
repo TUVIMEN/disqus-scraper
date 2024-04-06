@@ -14,9 +14,9 @@ A bash script for scraping comments from disqus.
     owner
     owner/thread
     @user
-    http[s]://disqus.com/home/forum/{owner}/
-    http[s]://disqus.com/home/discussion/{owner}/{thread}/
-    http[s]://disqus.com/by/{user}/
+    http(s)?://disqus.com/home/forum/{owner}/
+    http(s)?://disqus.com/home/discussion/{owner}/{thread}/
+    http(s)?://disqus.com/by/{user}/
 
 ## Structure
 
